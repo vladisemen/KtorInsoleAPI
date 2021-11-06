@@ -5,7 +5,6 @@ import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.serialization.*
 import com.jetbrains.handson.httpapi.routes.registerCustomerRoutes
-import com.jetbrains.handson.httpapi.routes.registerOrderRoutes
 import com.jetbrains.handson.httpapi.routes.registerUploads
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
@@ -20,14 +19,10 @@ fun Application.module() {
         json()
     }
     install(Authentication) {
-        basic("auth-basic") {
+        basic {
             // Configure basic authentication
-        }
-        form("auth-form") {
-            // Configure form authentication
         }
     }
     registerCustomerRoutes()
-    registerOrderRoutes()
     registerUploads()
 }

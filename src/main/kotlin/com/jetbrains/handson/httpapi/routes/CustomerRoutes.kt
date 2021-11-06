@@ -39,6 +39,7 @@ fun Route.customerRouting() {
             call.respond(customer)
         }
         post {
+            print(call)
             val customer = call.receive<Customer>()
             // TODO - This shouldn't really be done in production as
             // we should be accessing a mutable list in a thread-safe manner.
