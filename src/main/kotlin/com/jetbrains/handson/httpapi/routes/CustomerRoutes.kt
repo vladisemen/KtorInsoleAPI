@@ -43,9 +43,13 @@ fun Route.customerRouting() {
             val customer = call.receive<Customer>()
             // TODO - This shouldn't really be done in production as
             // we should be accessing a mutable list in a thread-safe manner.
-            // However, in production code we wouldn't be using mutable lists as a database!
-            customerStorage.add(customer)
-            call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
+            // However, in production code we wouldn't be using mutable lists as a database
+            if (customerStorage.find { it.firstName == customer.firstName } == null){
+                customerStorage.add(customer)
+                call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
+            }else{
+                call.respondText("Such customer already exists", status = HttpStatusCode.Found)
+            }
         }
         delete("{id}") {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
