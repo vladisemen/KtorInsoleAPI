@@ -39,12 +39,8 @@ fun Route.customerRouting() {
             call.respond(customer)
         }
         post {
-            print(call)
             val customer = call.receive<Customer>()
-            // TODO - This shouldn't really be done in production as
-            // we should be accessing a mutable list in a thread-safe manner.
-            // However, in production code we wouldn't be using mutable lists as a database
-            if (customerStorage.find { it.firstName == customer.firstName } == null){
+            if (customerStorage.find { it.email == customer.email } == null){
                 customerStorage.add(customer)
                 call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
             }else{
@@ -59,7 +55,6 @@ fun Route.customerRouting() {
                 call.respondText("Not Found", status = HttpStatusCode.NotFound)
             }
         }
-
     }
 }
 
