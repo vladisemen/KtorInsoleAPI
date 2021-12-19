@@ -39,7 +39,7 @@ fun Route.customerRouting() {
             call.respond(customer)
         }
         post {
-            val customer = call.receive<Customer>()
+            val customer = call.receive<Customer>()//здесь должна быть генерация уникального id
             if (customerStorage.find { it.email == customer.email } == null){
                 customerStorage.add(customer)
                 call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
@@ -53,6 +53,17 @@ fun Route.customerRouting() {
                 call.respondText("Customer removed correctly", status = HttpStatusCode.Accepted)
             } else {
                 call.respondText("Not Found", status = HttpStatusCode.NotFound)
+            }
+        }
+    }
+    route("/customer_input") {
+        post {
+            val customer = call.receive<Customer>()//здесь должна быть генерация уникального id
+            if (customerStorage.find { it.email == customer.email } == null){
+                customerStorage.add(customer)
+                call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
+            }else{
+                call.respondText("Such customer already exists", status = HttpStatusCode.Found)
             }
         }
     }
