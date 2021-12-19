@@ -1,7 +1,7 @@
 package com.jetbrains.handson.httpapi.routes
 
 import Customer
-import com.jetbrains.handson.httpapi.models.*
+
 import customerStorage
 import io.ktor.application.*
 import io.ktor.http.*
